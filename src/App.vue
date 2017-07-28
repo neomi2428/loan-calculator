@@ -9,7 +9,7 @@
     <input type="text" id="down-payment" />
     <label for="interest-rate">Interest rate</label>
     <input type="text" id="interest-rate" />
-    <button type="submit">Calculate</button>
+    <button v-on:click="calculate" type="submit">Calculate</button>
   </div>
 </template>
 
@@ -19,6 +19,11 @@ export default {
   data () {
     return {
       msg: 'Loan Calculator'
+    }
+  },
+  methods: {
+    calculate: function (event) {
+      console.log('calculate')
     }
   }
 }
