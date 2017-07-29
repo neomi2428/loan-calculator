@@ -3,11 +3,13 @@
     <img src="./assets/logo.png">
     <h1>{{ msg }}</h1>
     <label for="home-price">Home price</label>
-    <input type="number" id="home-price" value="30000" />
+    <input type="number" id="home-price" value="300000" />
     <label for="down-payment">Down payment</label>
-    <input type="number" id="down-payment" value="6000" />
+    <input type="number" id="down-payment" value="60000" />
     <label for="interest-rate">Interest rate</label>
-    <input type="number" id="interest-rate" value="4" />
+    <input type="number" id="interest-rate" value="4.0" />
+    <label for="loan-term-month">Loan term month</label>
+    <input type="number" id="loan-term-month" value="360" />
     <button v-on:click="calculate" type="submit">Calculate</button>
     <div id="loan-result">
     </div>
@@ -24,13 +26,15 @@ export default {
   },
   methods: {
     calculate: function (event) {
-      var homePrice = document.getElementById("home-price").value
-      var downPayment = document.getElementById("down-payment").value
-      var interestRate = document.getElementById("interest-rate").value
+      var homePrice = Number(document.getElementById("home-price").value)
+      var downPayment = Number(document.getElementById("down-payment").value)
+      var interestRate = Number(document.getElementById("interest-rate").value)
+      var loanTermMonth = Number(document.getElementById("loan-term-month").value)
+
       var loanAmount = this.getLoanAmount(homePrice, downPayment)
+      var monthlyPayment = this.getMonthlyPayment(loanAmount, loanTermMonth, interestRate)
 
-
-      document.getElementById("loan-result").innerHTML = "loan-result"
+      document.getElementById("loan-result").innerHTML = monthlyPayment
     },
     getLoanAmount: function(homePrice, downPayment) {
       homePrice = Number(homePrice)
@@ -53,6 +57,20 @@ export default {
         balance -= monthlyPayment
       }
       return balance
+    },
+    getMonthlyPayment(loanAmount, loanTermMonth, interestRate) {
+      var lo = 0
+      var hi = loanAmount * (1.0 + (interestRate / 12.0) / 100.0)
+
+      for (var i = 0; i < 100; ++i) {
+        var mid = (lo + hi) / 2.0
+        if (this.getBalance(loanAmount, loanTermMonth, interestRate, mid) <= 0) {
+          hi = mid
+        } else {
+          lo = mid
+        }
+      }
+      return hi
     }
   }
 }
