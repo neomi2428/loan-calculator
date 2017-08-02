@@ -2,15 +2,17 @@
   <div id="app">
     <img src="./assets/logo.png">
     <h1>{{ msg }}</h1>
-    <label for="home-price">Home price</label>
-    <input type="number" id="home-price" value="300000" />
-    <label for="down-payment">Down payment</label>
-    <input type="number" id="down-payment" value="60000" />
-    <label for="interest-rate">Interest rate</label>
-    <input type="number" id="interest-rate" value="4.0" />
-    <label for="loan-term-month">Loan term month</label>
-    <input type="number" id="loan-term-month" value="360" />
-    <button v-on:click="calculate" type="submit">Calculate</button>
+    <div id="loan-input">
+      <label for="home-price">Home price</label>
+      <input type="number" id="home-price" value="300000" />
+      <label for="down-payment">Down payment</label>
+      <input type="number" id="down-payment" value="60000" />
+      <label for="interest-rate">Interest rate</label>
+      <input type="number" id="interest-rate" value="4.0" />
+      <label for="loan-term-month">Loan term month</label>
+      <input type="number" id="loan-term-month" value="360" />
+      <button v-on:click="calculate" type="submit">Calculate</button>
+    </div>
     <div id="loan-result">
     </div>
   </div>
@@ -86,21 +88,30 @@ export default {
   margin-top: 60px;
 }
 
-h1, h2 {
+h1 {
   font-weight: normal;
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
+#loan-input {
+  width: 200px;
+  height: 100%;
   display: inline-block;
-  margin: 0 10px;
+  text-align: left;
+
+  label {
+    display: block;
+  }
+
+  input {
+    width: 90%;
+    margin-bottom: 10px;
+  }
 }
 
-a {
-  color: #42b983;
+#loan-result {
+  display: inline-block;
+  width: 400px;
+  height: 100%;
 }
+
 </style>
