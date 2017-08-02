@@ -14,6 +14,8 @@
       <button v-on:click="calculate" type="submit">Calculate</button>
     </div>
     <div id="loan-result">
+      <div id="monthly-payment"></div>
+      <div id="taxes"></div>
     </div>
   </div>
 </template>
@@ -36,7 +38,12 @@ export default {
       var loanAmount = this.getLoanAmount(homePrice, downPayment)
       var monthlyPayment = this.getMonthlyPayment(loanAmount, loanTermMonth, interestRate)
 
-      document.getElementById("loan-result").innerHTML = monthlyPayment
+      document.getElementById("monthly-payment").innerHTML = Math.round(monthlyPayment)
+      document.getElementById("taxes").innerHTML = Math.round(this.getTaxes(homePrice))
+    },
+    getTaxes: function(homePrice) {
+      var annualPropertyTaxRate = 0.0058
+      return homePrice * annualPropertyTaxRate / 12
     },
     getLoanAmount: function(homePrice, downPayment) {
       homePrice = Number(homePrice)
