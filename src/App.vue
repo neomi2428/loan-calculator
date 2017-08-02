@@ -15,12 +15,15 @@
     </div>
     <div id="loan-result">
       <div id="monthly-payment"></div>
-      <div id="taxes"></div>
+      <div id="monthly-taxes"></div>
+      <div id="monthly-insurance"></div>
     </div>
   </div>
 </template>
 
 <script>
+import * as d3 from 'd3'
+
 export default {
   name: 'app',
   data () {
@@ -39,9 +42,26 @@ export default {
       var monthlyPayment = this.getMonthlyPayment(loanAmount, loanTermMonth, interestRate)
 
       document.getElementById("monthly-payment").innerHTML = Math.round(monthlyPayment)
-      document.getElementById("taxes").innerHTML = Math.round(this.getTaxes(homePrice))
+      document.getElementById("monthly-taxes").innerHTML = Math.round(this.getMonthlyTaxes(homePrice))
+      document.getElementById("monthly-insurance").innerHTML = Math.round(this.getMonthlyInsurance())
+
+      this.drawPieChart(monthlyPayment, this.getMonthlyTaxes(homePrice), this.getMonthlyInsurance())
     },
-    getTaxes: function(homePrice) {
+    drawPieChart: function(payment, taxes, insurance) {
+      var pie = d3.pie()
+                  .sort(null)
+                  .value(function(d) {
+                    console.log(d)
+                    return d
+                  })
+      var arcs = pie([payment, taxes, insurance])
+      console.log(arcs)
+    },
+    getMonthlyInsurance: function() {
+      var annualInsurance = 800
+      return annualInsurance / 12
+    },
+    getMonthlyTaxes: function(homePrice) {
       var annualPropertyTaxRate = 0.0058
       return homePrice * annualPropertyTaxRate / 12
     },

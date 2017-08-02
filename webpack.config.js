@@ -38,6 +38,13 @@ module.exports = {
       }
     ]
   },
+  plugins: [
+    /*
+    new webpack.ProvidePlugin({
+      "d3": "d3",
+    })
+    */
+  ],
   resolve: {
     alias: {
       'vue$': 'vue/dist/vue.esm.js'
