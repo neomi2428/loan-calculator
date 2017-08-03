@@ -98,7 +98,14 @@ export default {
       loanResult.replaceChild(newCanvas, oldCanvas)
       return newCanvas
     },
+    // Donut chart - https://bl.ocks.org/mbostock/2394b23da1994fc202e1
     drawPieChart: function(payment, taxes, insurance) {
+      var data = [
+        {'text': 'P&I', 'amount': payment},
+        {'text': 'Taxes', 'amount': taxes},
+        {'text': 'insurance', 'amount': insurance}
+      ]
+
       var canvas = this.createNewCanvas(),
           context = canvas.getContext("2d")
 
@@ -111,10 +118,10 @@ export default {
       var pie = d3.pie()
                   .sort(null)
                   .value(function(d) {
-                    return d
+                    return d.amount
                   }),
-          arcs = pie([payment, taxes, insurance]),
-          colors = ["#98abc5", "#8a89a6", "#7b6888"]
+          arcs = pie(data),
+          colors = ["#7EC0EE", "#FFB6C1", "#98FF98"]
 
       var arc = d3.arc()
                   .outerRadius(radius - 10)
@@ -137,10 +144,12 @@ export default {
                        .context(context)
       context.textAlign = "center"
       context.textBaseline = "middle"
+      context.font="bold 12px Arial"
       context.fillStyle = "#000"
       arcs.forEach(function(d) {
         let c = labelArc.centroid(d)
-        context.fillText(d.data, c[0], c[1])
+        let displayData = d.data.text + ': ' + d.data.amount
+        context.fillText(displayData, c[0], c[1])
       })
     }
 
