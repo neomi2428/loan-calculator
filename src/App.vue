@@ -98,13 +98,15 @@ export default {
       loanResult.replaceChild(newCanvas, oldCanvas)
       return newCanvas
     },
-    // Donut chart - https://bl.ocks.org/mbostock/2394b23da1994fc202e1
+    // (Used) Donut chart - https://bl.ocks.org/mbostock/2394b23da1994fc202e1
+    // (Not) Donut chart with text inside - https://bl.ocks.org/farazshuja/afd5e5f492fd00dd0ac4644d53716f4e
     drawPieChart: function(payment, taxes, insurance) {
       var data = [
         {'text': 'P&I', 'amount': payment},
         {'text': 'Taxes', 'amount': taxes},
         {'text': 'insurance', 'amount': insurance}
       ]
+      var totalPayment = payment + taxes + insurance
 
       var canvas = this.createNewCanvas(),
           context = canvas.getContext("2d")
@@ -148,9 +150,12 @@ export default {
       context.fillStyle = "#000"
       arcs.forEach(function(d) {
         let c = labelArc.centroid(d)
-        let displayData = d.data.text + ': ' + d.data.amount
+        let displayData = d.data.text + ': $' + d.data.amount
         context.fillText(displayData, c[0], c[1])
       })
+
+      var totalPaymentText = "Total: $" + totalPayment
+      context.fillText(totalPaymentText, 0, 0)
     }
 
   }
