@@ -89,8 +89,17 @@ export default {
       }
       return hi
     },
+    createNewCanvas: function() {
+      var loanResult = document.querySelector('#loan-result'),
+          oldCanvas = document.querySelector('#loan-result canvas'),
+          newCanvas = document.createElement('canvas')
+      newCanvas.width = 300
+      newCanvas.height = 300
+      loanResult.replaceChild(newCanvas, oldCanvas)
+      return newCanvas
+    },
     drawPieChart: function(payment, taxes, insurance) {
-      var canvas = document.querySelector("canvas"),
+      var canvas = this.createNewCanvas(),
           context = canvas.getContext("2d")
 
       var width = canvas.width,
